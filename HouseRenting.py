@@ -30,9 +30,6 @@ class HouseRenting:
 
         all_address = soup.find_all(name="address")
         self.all_address_list = [
-            address.get_text().split("|")[1].strip()
-            if "|" in address
-            else address.strip()
-            for address in all_address
+            address.get_text().replace("|", "").strip() for address in all_address
         ]
         print(self.all_address_list)
