@@ -7,7 +7,7 @@ from dotenv import dotenv_values
 class HouseRenting:
     def __init__(self):
         self.all_price_list = []
-        self.all_product_link = []
+        self.all_properties_link = []
         self.all_address_list = []
         self.config = {**dotenv_values("./venv/.env")}
 
@@ -32,4 +32,15 @@ class HouseRenting:
         self.all_address_list = [
             address.get_text().replace("|", "").strip() for address in all_address
         ]
-        print(self.all_address_list)
+
+        all_links = soup.find_all(
+            "a",
+            class_="property-card-link",
+            attrs={"tabindex": "-1", "aria-hidden": "false"},
+        )
+        self.all_properties_link = [
+            link.get("href")
+            if "https://www.zillow.com" in link.get("href")
+            else f"https://www.zillow.com{link.get('href')}"
+            for link in all_links
+        ]
