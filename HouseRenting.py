@@ -63,7 +63,7 @@ class HouseRenting:
                 "link": link,
             }
 
-    def data_input(self):
+    def form_data_input(self):
         for x in self.all_data.keys():
             self.driver.get(self.config["form"])
             sleep(5)
@@ -95,9 +95,17 @@ class HouseRenting:
 
     def create_sheet(self):
         self.driver.get(
-            "https://docs.google.com/forms/d/16fov76JAePrxaouY9J_U6hRnZcEfU9IDTlcJb3eYIzE/edit#responses"
+            "https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fdocs.google.com%2Fforms%2Fu%2F0%2F%3Ftgif%3Dd&followup=https%3A%2F%2Fdocs.google.com%2Fforms%2Fu%2F0%2F%3Ftgif%3Dd&ifkv=AYZoVhcGslrCJO8_h4PQlOJDyxdsma17yh1x-iNBkdaa5wV4S9hi4qclbtqx80bw9yHlswLGfOsD&ltmpl=forms&osid=1&passive=1209600&service=wise&flowName=GlifWebSignIn&flowEntry=ServiceLogin&dsh=S-804957902%3A1694855013214208&theme=glif"
         )
         sleep(10)
+        email_input = self.driver.find_element(By.XPATH, '//*[@id="identifierId"]')
+        email_input.send_keys(self.config["email"])
+
+        next_btn = self.driver.find_element(
+            By.XPATH, '//*[@id="identifierNext"]/div/button/span'
+        )
+        next_btn.click()
+
         sheet_btn = self.driver.find_element(
             By.XPATH,
             '//*[@id="ResponsesView"]/div/div[1]/div[1]/div[2]/div[1]/div[1]/div/span/span[2]',
